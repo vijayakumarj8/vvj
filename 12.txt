@@ -1,0 +1,69 @@
+12)Here is an example program in C that demonstrates communication between IoT (using an ESP8266/ESP32 microcontroller) and Zigbee (using an XBee module):
+
+IoT (ESP8266/ESP32) Code:
+
+#include <WiFi.h>
+#include <SoftwareSerial.h>
+
+SoftwareSerial zigbee(2, 3); // RX, TX
+
+void setup() {
+  Serial.begin(115200);
+  zigbee.begin(9600);
+  WiFi.begin("your_wifi_ssid", "your_wifi_password");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
+  Serial.println("Connected to WiFi");
+}
+
+void loop() {
+  if (zigbee.available()) {
+    char c = zigbee.read();
+    Serial.print(c);
+  }
+  if (Serial.available()) {
+    char c = Serial.read();
+    zigbee.print(c);
+  }
+}
+
+
+Zigbee (XBee) Code:
+
+#include <SoftwareSerial.h>
+
+SoftwareSerial iot(2, 3); // RX, TX
+
+void setup() {
+  Serial.begin(9600);
+  iot.begin(9600);
+}
+
+void loop() {
+  if (iot.available()) {
+    char c = iot.read();
+    Serial.print(c);
+  }
+  if (Serial.available()) {
+    char c = Serial.read();
+    iot.print(c);
+  }
+}
+
+
+output:
+
+Connected to WiFi\
+
+Connecting to WiFi...
+Connected to WiFi
+Hello Zigbee!
+
+Hello Zigbee!
+Hello ESP8266!
+
+
+
+

@@ -1,0 +1,60 @@
+15) communication between IoT (using an ESP8266/ESP32 microcontroller) and GSM (using a SIM900A module):
+
+
+#include <SoftwareSerial.h>
+
+// Define the pins for the GSM module
+#define GSM_TX 2
+#define GSM_RX 3
+
+SoftwareSerial gsm(GSM_TX, GSM_RX);
+
+void setup() {
+  Serial.begin(115200);
+  gsm.begin(9600);
+}
+
+void loop() {
+  // Send SMS using GSM module
+  gsm.println("AT+CMGF=1");
+  delay(1000);
+  gsm.println("AT+CMGS=\"+1234567890\"");
+  delay(1000);
+  gsm.println("Hello from IoT!");
+  delay(1000);
+  gsm.println((char)26);
+
+  // Receive SMS using GSM module
+  if (gsm.available()) {
+    String message = gsm.readString();
+    Serial.println(message);
+  }
+
+  // Make a call using GSM module
+  gsm.println("ATD+1234567890;");
+  delay(1000);
+
+  // Receive data from IoT device (e.g., sensor data)
+  int sensorData = analogRead(A0);
+  gsm.println(sensorData);
+}
+
+output:
+AT+CMGF=1
+
+OK
+AT+CMGS="+1234567890"
+
+> Hello from IoT!
+(char)26
+
+OK
+
++CMT: "+1234567890","","21/08/03,12:34:56+32"
+Hello from the recipient!
+
+ATD+1234567890;
+
+OK
+
+

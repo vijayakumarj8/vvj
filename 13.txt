@@ -1,0 +1,43 @@
+13. Write a program to compare two numbers in 8051 using simulator.
+
+
+
+; Compare two numbers in 8051
+
+ORG 0000H
+
+MOV A, #0x05 ; Move 05h into accumulator
+MOV B, #0x03 ; Move 03h into register B
+
+; Compare A and B
+CMP A, B
+
+; Jump to label if A is greater than B
+JNC LABEL1
+
+; Jump to label if A is less than B
+JC LABEL2
+
+; If A is equal to B, continue execution
+
+LABEL1:
+MOV A, #0x01 ; Move 01h into accumulator if A is greater than B
+SJMP END
+
+LABEL2:
+MOV A, #0x02 ; Move 02h into accumulator if A is less than B
+SJMP END
+
+END:
+NOP ; No operation
+
+
+
+
+
+
+
+
+
+output:
+After running the program, the accumulator (A) should contain 01H.

@@ -1,0 +1,23 @@
+14. Write a program to perform comparison operations using Embedded C. 
+
+
+void main(void){
+	unsigned char num1 = 0x50;
+	unsigned char num2 = 0x54;
+	P0=0x00;
+	if(num1>=num2){
+		P0=num1;
+	}
+	else{
+		P0=num2;
+	}
+}
+
+
+
+
+
+
+outout:
+
+After running the simulation, P0 should contain 0x54 (84 in decimal).

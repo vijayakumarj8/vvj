@@ -1,0 +1,35 @@
+9. Perform the communication between Arduino and Raspberry PI using GSM. 
+
+
+ard:
+
+#include <Sim900a.h>
+
+Sim900a gsm;
+
+void setup() {
+  gsm.begin(9600); // Initialize GSM module
+}
+
+void loop() {
+  gsm.sendSMS("Raspberry Pi", "Hello from Arduino!"); // Send SMS
+  delay(1000); // Wait for 1 second
+}
+   
+ras:
+
+import serial
+
+gsm = serial.Serial('/dev/ttyUSB0', 9600) # Initialize serial communication
+
+while True:
+  data = gsm.readline() # Read incoming data from GSM module
+  print(data.decode().strip()) # Print the received message
+0
+
+
+output:
+
+Hello from Arduino!
+Hello from Arduino!
+Hello from Arduino!
